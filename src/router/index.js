@@ -1,29 +1,118 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import store from "../store"
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
+const rejectAuthUser = (to, from, next) => {
+  if(store.state.isLogin === true) {
+    // 로그인 된 사용자는 로그인 페이지는 막아야 함.
+    alert('이미 로그인 상태입니다.')
+    next('/')
+  } else {
+    next()
+  }
+}
+const onlyAuthUser = (to, from, next) => {
+  if(store.state.isLogin === false && localStorage.getItem('access-token') === null) {
+    // 로그인 안된 사용자는 My Page는 막아야 함.
+    alert('로그인이 필요합니다.')
+    next({name: 'login'})
+  } else {
+    next()
+  }
+}
+const onlyAdminUser = (to, from, next) => {
+  if(store.state.isLogin === false && localStorage.getItem('access-token') === null) {
+    alert('로그인이 필요합니다.')
+    next({name: 'login'})
+  } else if(!store.state.isAdmin) {
+    alert('Admin권한이 필요합니다.')
+    next('/')
+  } else {
+    next()
+  }
+}
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home
+    path: "/",
+    name: "home",
+    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue")
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: "/login",
+    name: "login",
+    beforeEnter: rejectAuthUser,
+    component: () => import(/* webpackChunkName: "login" */ "../views/Login.vue")
+  },
+  {
+    path: "/logout",
+    name: "logout",
+    component: () => import(/* webpackChunkName: "logout" */ "../views/Logout.vue")
+  },
+  {
+    path: "/mypage",
+    name: "mypage",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "mypage" */ "../views/Mypage.vue")
+  },
+  {
+    path: "/fexplorer",
+    name: "fexplorer",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "fexplorer" */ "../views/Fexplorer.vue")
+  },
+  {
+    path: "/album",
+    name: "album",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "album" */ "../views/Album.vue")
+  },
+  {
+    path: "/todo",
+    name: "todo",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "todo" */ "../views/Todo.vue")
+  },
+  {
+    path: "/grid",
+    name: "grid",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "grid" */ "../views/Grid.vue")
+  },
+  {
+    path: "/inputform",
+    name: "inputform",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "inputform" */ "../views/InputForm.vue")
+  },
+  {
+    path: "/registrationform",
+    name: "registrationform",
+    component: () => import(/* webpackChunkName: "registrationform" */ "../views/RegistrationForm.vue")
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    beforeEnter: onlyAdminUser,
+    component: () => import(/* webpackChunkName: "admin" */ "../views/Admin.vue")
+  },
+  {
+    path: "/market",
+    name: "market",
+    component: () => import(/* webpackChunkName: "market" */ "../views/Market.vue")
+  },
+  {
+    path: "/selectproduct",
+    name: "selectproduct",
+    component: () => import(/* webpackChunkName: "selectproduct" */ "../views/Selectproduct.vue")
   }
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes
-})
+});
 
-export default router
+export default router;
