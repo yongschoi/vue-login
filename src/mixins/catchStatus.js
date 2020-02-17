@@ -29,9 +29,9 @@ export const catchStatus = {
             // axios 헤더에 default로 설정
             axios.defaults.headers.common['access-token'] = newAccesstoken   
             // refresh
-            store.dispatch('getUserInfo')   
+            store.dispatch('getUserInfo')
+            window.location.reload()
 
-            alert("인증정보가 새롭게 갱신되었습니다. 다시 시도하세요.")
         }).catch(err => {
           // refresh-token이 invalid(401)되어 세션 종료
           if(err.response.status === 401) {

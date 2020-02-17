@@ -100,12 +100,32 @@ const routes = [
   {
     path: "/market",
     name: "market",
+    beforeEnter: onlyAuthUser,
     component: () => import(/* webpackChunkName: "market" */ "../views/Market.vue")
   },
   {
     path: "/selectproduct",
     name: "selectproduct",
+    beforeEnter: onlyAuthUser,
     component: () => import(/* webpackChunkName: "selectproduct" */ "../views/Selectproduct.vue")
+  },
+  {
+    path: "/orderstatus",
+    name: "orderstatus",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "orderstatus" */ "../views/Orderstatus.vue")
+  },
+  {
+    path: "/orderaccept",
+    name: "orderaccept",
+    beforeEnter: onlyAdminUser,
+    component: () => import(/* webpackChunkName: "orderaccept" */ "../views/Orderaccept.vue")
+  },
+  {
+    path: "/delivery",
+    name: "delivery",
+    beforeEnter: onlyAdminUser,
+    component: () => import(/* webpackChunkName: "delivery" */ "../views/Delivery.vue")
   }
 ];
 

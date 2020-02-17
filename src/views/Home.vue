@@ -21,7 +21,7 @@ export default {
     HelloWorld
   },
   created() {
-    this.now = commonFunc.getDateAndTime(new Date())
+    this.now = commonFunc.getDateFormat(new Date())
   }
 };
 </script>

@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     getEmployees() {
-      // webflux gateway에 접근할 경우 명시저으로 header 셋팅(default 방식은 이슈가 있음)
+      // webflux gateway에 접근할 경우 명시적으로 header 셋팅(default 방식은 이슈가 있음)
       let token = localStorage.getItem('access-token')
       axios.get(`${target}/all`, { 
         headers: {

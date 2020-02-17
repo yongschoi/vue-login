@@ -52,7 +52,7 @@
         </v-list-item>
         <v-list-item v-if="isLogin" router :to="{name: 'grid'}" exact>
           <v-list-item-action>
-            <v-icon>mdi-view-list</v-icon>
+            <v-icon>mdi-grid</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Data Grid (Bulk)</v-list-item-title>
@@ -66,22 +66,63 @@
             <v-list-item-title>My Page</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="isLogin" router :to="{name: 'market'}" exact>
-          <v-list-item-action>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
+
+        <v-list-group v-if="isLogin" no-action>
+          <template v-slot:activator>
+            <v-list-item-action>
+              <v-icon>mdi-basket</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Shopping</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item v-if="isLogin" router :to="{name: 'market'}" exact>
             <v-list-item-title>Market</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'admin'}" exact>
-          <v-list-item-action>
-            <v-icon>mdi-shield-account</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Admin</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+            <v-list-item-action>
+              <v-icon>mdi-cart</v-icon>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item v-if="isLogin" router :to="{name: 'orderstatus'}" exact>
+            <v-list-item-title>Order Status</v-list-item-title>
+            <v-list-item-action>
+              <v-icon>mdi-view-list</v-icon>
+            </v-list-item-action>
+          </v-list-item>        
+        </v-list-group>
+        <v-list-group v-if="isLogin" v-show="isAdmin" no-action>
+          <template v-slot:activator>
+            <v-list-item-action>
+              <v-icon>mdi-shield-account</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Admin</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'admin'}" exact>
+            <v-list-item-content>
+              <v-list-item-title>회원관리</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>mdi-account-supervisor-outline</v-icon>
+            </v-list-item-action>            
+          </v-list-item>    
+          <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'orderaccept'}" exact>
+            <v-list-item-content>
+              <v-list-item-title>주문확인</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>mdi-playlist-play</v-icon>
+            </v-list-item-action>
+          </v-list-item>  
+          <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'delivery'}" exact>
+            <v-list-item-content>
+              <v-list-item-title>배송처리</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>mdi-truck-fast-outline</v-icon>
+            </v-list-item-action>
+          </v-list-item>            
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
 
@@ -143,7 +184,12 @@ import { mapState } from "vuex"
       source: String,
     },
     data: () => ({
-      drawer: null
+      drawer: null,
+      market: [
+        ['상품목록', 'mdi-cart-online'],
+        ['주문서', 'mdi-cart-online'],
+        ['배송조회', 'mdi-cart-online']
+      ]
     }),
     computed: {
       ...mapState(['isLogin', 'isAdmin'])

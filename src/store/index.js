@@ -92,7 +92,7 @@ export default new Vuex.Store({
           email: parsedToken.sub,
           name: parsedToken.name,
           roles: parsedToken.roles
-        } 
+        }
   
         commit('loginSuccess', userInfo)
       }
