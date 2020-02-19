@@ -1,34 +1,32 @@
 <template>
   <div>
-    <h1>주문목록</h1>
-      <v-select
-        style="width: 150px;"
-        :items="condition"
-        v-model="selectedCondition"
-        label="조회조건"
-        dense
-        solo
-      ></v-select>
+    <h1>상품준비</h1>
     <v-simple-table>
     <template v-slot:default>
       <thead>
         <tr>
-          <th class="text-left">주문시간</th>
+          <th class="text-left">주문번호</th>
+          <th class="text-center">주문자</th>
           <th class="text-center">제품정보</th>
           <th class="text-center">주문수량</th>
           <th class="text-center">결제정보</th>
-          <th class="text-center">주문상태</th>
-          <th class="text-center">택배사/운송장번호</th>          
+          <th class="text-center">주문승인</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="order in orderlist" :key="order.no">
-          <td class="text-left">{{ getDateFormat(order.opentime) }}</td>
+          <td class="text-left">{{ order.no }}</td>
+          <td class="text-center">{{ order.user.name }}</td>
           <td class="text-center">{{ order.product.name }}</td>
           <td class="text-center">{{ order.qty }}</td>
           <td class="text-center">{{ order.payment.company }}/{{ order.payment.cardNo | cardmask }}</td>
-          <td class="text-center">{{ status[order.status] }}</td>
-         <td class="text-center">{{ order.delivery.company}}/{{ order.delivery.no }}</td>
+          <td class="text-center">
+            <v-btn 
+              @click="prepare(order.no)"
+              text icon color="deep-orange"
+              ><v-icon>mdi-gift-outline</v-icon>
+            </v-btn>
+          </td>
         </tr>
       </tbody>
     </template>
@@ -48,8 +46,7 @@ const target = 'http://127.0.0.1:8082/order'
 export default {
   data() {
     return {
-      orderlist: [],
-      status: ['주문/결제완료', '상품준비중', '배송중']
+      orderlist: []
     }
   },
   filters: {
@@ -65,10 +62,20 @@ export default {
   },
   methods: {
     getOrderList() {
-      axios.get(`${target}/statusAll/${this.userInfo.email}`
+      axios.get(`${target}/admin/onPayment`
        ).then(res => { 
           this.orderlist = res.data
       }).catch(err => {
+        this.catchStatus(err)
+      })
+    },
+    prepare(orderNo) {
+      axios.put(`${target}/admin/prepare/${orderNo}`
+       ).then(res => { 
+          this.orderlist = res.data
+          this.getOrderList()
+      }).catch(err => {
+        console.log(err)
         this.catchStatus(err)
       })
     },

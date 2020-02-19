@@ -27,6 +27,7 @@ const onlyAdminUser = (to, from, next) => {
     alert('로그인이 필요합니다.')
     next({name: 'login'})
   } else if(!store.state.isAdmin) {
+    // F5를 누르면 브라우저 clear되므로 store.state.isAdmin 체크는 의미가 없다.
     alert('Admin권한이 필요합니다.')
     next('/')
   } else {
@@ -116,16 +117,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "orderstatus" */ "../views/Orderstatus.vue")
   },
   {
-    path: "/orderaccept",
-    name: "orderaccept",
+    path: "/orderprepare",
+    name: "orderprepare",
     beforeEnter: onlyAdminUser,
-    component: () => import(/* webpackChunkName: "orderaccept" */ "../views/Orderaccept.vue")
+    component: () => import(/* webpackChunkName: "orderprepare" */ "../views/Orderprepare.vue")
   },
   {
     path: "/delivery",
     name: "delivery",
     beforeEnter: onlyAdminUser,
     component: () => import(/* webpackChunkName: "delivery" */ "../views/Delivery.vue")
+  },
+  {
+    path: "/ordercomplete",
+    name: "ordercomplete",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "ordercomplete" */ "../views/Ordercomplete.vue")
   }
 ];
 

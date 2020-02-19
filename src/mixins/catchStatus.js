@@ -26,12 +26,8 @@ export const catchStatus = {
             let newAccesstoken = res.data;
             // token정보를 로컬스토리지에 저장
             localStorage.setItem('access-token', newAccesstoken)
-            // axios 헤더에 default로 설정
-            axios.defaults.headers.common['access-token'] = newAccesstoken   
-            // refresh
-            store.dispatch('getUserInfo')
+            // refresh : 모든 정보 사라짐
             window.location.reload()
-
         }).catch(err => {
           // refresh-token이 invalid(401)되어 세션 종료
           if(err.response.status === 401) {
@@ -50,6 +46,11 @@ export const catchStatus = {
         store.dispatch('logout')
         router.push({name:'home'})
       }   
+    },
+    invalidOrderStatus(err) {
+      alert("비정상인 주문입니다. 다시 진행하시기 바랍니다.")
+      router.push({name:'home'})
     }
+  
   }
 }

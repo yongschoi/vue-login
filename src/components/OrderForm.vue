@@ -116,7 +116,8 @@ export default {
       address: '',
       phone: '',
       orderComplete: false,
-      notorder: false
+      notorder: false,
+      product: this.$route.params
     }
   },
   filters: {
@@ -125,9 +126,6 @@ export default {
     }
   },
   computed: {
-    product: function () {
-      return this.$route.params;
-    },
     total: function() {
       return this.product.price * this.orderQty
     },
@@ -179,16 +177,23 @@ export default {
         return
       }
 
+      let token = localStorage.getItem('access-token')
       axios.post(order_target + '/create', {
         qty: this.orderQty,
         product: this.product,
         user: this.userInfo,
         payment: {company: this.orderPayment, cardNo: this.cardNo, total: this.total},
         delivery: {type: this.orderDelivery, address: this.address, phone: this.phone}
+      }, 
+      { 
+        headers: {
+          'access-token': token
+        }
       }).then((res) => {
         this.orderComplete = true
       }).catch(err => {
         this.catchStatus(err)
+        // this.invalidOrderStatus()
       })
     }
   },
