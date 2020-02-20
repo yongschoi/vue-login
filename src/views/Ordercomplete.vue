@@ -8,9 +8,10 @@
           <th class="text-left">주문시간</th>
           <th class="text-center">제품정보</th>
           <th class="text-center">주문수량</th>
+          <th class="text-center">주문금액</th>
           <th class="text-center">결제정보</th>
           <th class="text-center">택배사/운송장번호</th>   
-          <th class="text-center">상품수령/완료</th>
+          <th class="text-center">구매확정</th>
         </tr>
       </thead>
       <tbody>
@@ -18,6 +19,7 @@
           <td class="text-left">{{ getDateFormat(order.opentime) }}</td>
           <td class="text-center">{{ order.product.name }}</td>
           <td class="text-center">{{ order.qty }}</td>
+          <td class="text-center">{{ order.payment.total | currency }}</td>
           <td class="text-center">{{ order.payment.company }}/{{ order.payment.cardNo | cardmask }}</td>
           <td class="text-center">{{ order.delivery.company}}/{{ order.delivery.no }}</td>
           <td class="text-center">
@@ -52,6 +54,9 @@ export default {
   filters: {
     cardmask: function(value) {
       return commonFunc.getCardNoMask(value)
+    },
+    currency: function(value) {
+      return commonFunc.getCurrency(value)
     }
   },
   computed: {
@@ -62,7 +67,7 @@ export default {
   },
   methods: {
     getOrderList() {
-      axios.get(`${target}/delivery/${this.userInfo.email}`
+      axios.get(`${target}/onDelivery/${this.userInfo.email}`
        ).then(res => { 
           this.orderlist = res.data
       }).catch(err => {

@@ -117,22 +117,28 @@ const routes = [
     component: () => import(/* webpackChunkName: "orderstatus" */ "../views/Orderstatus.vue")
   },
   {
-    path: "/orderprepare",
-    name: "orderprepare",
+    path: "/orderprepareadmin",
+    name: "orderprepareadmin",
     beforeEnter: onlyAdminUser,
-    component: () => import(/* webpackChunkName: "orderprepare" */ "../views/Orderprepare.vue")
+    component: () => import(/* webpackChunkName: "orderprepareadmin" */ "../views/Orderprepareadmin.vue")
   },
   {
-    path: "/delivery",
-    name: "delivery",
+    path: "/deliveryadmin",
+    name: "deliveryadmin",
     beforeEnter: onlyAdminUser,
-    component: () => import(/* webpackChunkName: "delivery" */ "../views/Delivery.vue")
+    component: () => import(/* webpackChunkName: "deliveryadmin" */ "../views/Deliveryadmin.vue")
   },
   {
     path: "/ordercomplete",
     name: "ordercomplete",
     beforeEnter: onlyAuthUser,
     component: () => import(/* webpackChunkName: "ordercomplete" */ "../views/Ordercomplete.vue")
+  },
+  {
+    path: "/orderhistory",
+    name: "orderhistory",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "orderhistory" */ "../views/Orderhistory.vue")
   }
 ];
 

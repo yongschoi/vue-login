@@ -152,10 +152,13 @@ export default {
           this.qty = [0]
           this.notorder = true
         } else {
-          let temp = new Array()   
-          for ( let idx = 0; idx < stock.qty; idx++ ) {
-            temp[idx] = idx+1;
-          }
+          let temp = new Array()
+          let tempQty
+          // 99개까지만 표시
+          stock.qty > 99 ? tempQty = 99 : tempQty = stock.qty
+          for ( let idx = 0; idx < tempQty; idx++ ) {
+              temp[idx] = idx+1;
+          }      
           this.qty = temp
           this.notorder = false
         }

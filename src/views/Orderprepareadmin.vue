@@ -9,6 +9,7 @@
           <th class="text-center">주문자</th>
           <th class="text-center">제품정보</th>
           <th class="text-center">주문수량</th>
+          <th class="text-center">주문금액</th>
           <th class="text-center">결제정보</th>
           <th class="text-center">주문승인</th>
         </tr>
@@ -19,6 +20,7 @@
           <td class="text-center">{{ order.user.name }}</td>
           <td class="text-center">{{ order.product.name }}</td>
           <td class="text-center">{{ order.qty }}</td>
+          <td class="text-center">{{ order.payment.total | currency }}</td>
           <td class="text-center">{{ order.payment.company }}/{{ order.payment.cardNo | cardmask }}</td>
           <td class="text-center">
             <v-btn 
@@ -52,6 +54,9 @@ export default {
   filters: {
     cardmask: function(value) {
       return commonFunc.getCardNoMask(value)
+    },
+    currency: function(value) {
+      return commonFunc.getCurrency(value)
     }
   },
   computed: {

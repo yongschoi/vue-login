@@ -1,6 +1,18 @@
 <template>
   <div>
-    <h1>주문목록</h1>
+    <h1>주문이력</h1>
+    <v-subheader>{{ title }} {{ orderlist.length}}건 총금액 {{ total | currency }}원</v-subheader>
+    <v-row class="d-inline-flex">
+      <v-col>
+        <v-btn @click=getOrderList(7)>최근1주(7일)</v-btn>
+      </v-col>
+      <v-col>
+        <v-btn @click=getOrderList(30)>최근1개월(30일)</v-btn>
+      </v-col>
+      <v-col>
+        <v-btn @click=getOrderList(180)>최근6개월(180일)</v-btn>
+      </v-col>
+    </v-row>
     <v-simple-table>
     <template v-slot:default>
       <thead>
@@ -10,8 +22,7 @@
           <th class="text-center">주문수량</th>
           <th class="text-center">주문금액</th>
           <th class="text-center">결제정보</th>
-          <th class="text-center">주문상태</th>
-          <th class="text-center">택배사/운송장번호</th>          
+          <th class="text-center">택배사/운송장번호</th>
         </tr>
       </thead>
       <tbody>
@@ -21,8 +32,7 @@
           <td class="text-center">{{ order.qty }}</td>
           <td class="text-center">{{ order.payment.total | currency }}</td>
           <td class="text-center">{{ order.payment.company }}/{{ order.payment.cardNo | cardmask }}</td>
-          <td class="text-center">{{ status[order.status] }}</td>
-         <td class="text-center">{{ order.delivery.company}}/{{ order.delivery.no }}</td>
+          <td class="text-center">{{ order.delivery.company}}/{{ order.delivery.no }}</td>
         </tr>
       </tbody>
     </template>
@@ -43,7 +53,8 @@ export default {
   data() {
     return {
       orderlist: [],
-      status: ['주문/결제완료', '상품준비중', '배송중']
+      title: '최근1주',
+      total: 0
     }
   },
   filters: {
@@ -58,13 +69,29 @@ export default {
     ...mapState(['userInfo'])
   },
   created() {
-    this.getOrderList()
+    this.getOrderList(7)
   },
   methods: {
-    getOrderList() {
-      axios.get(`${target}/statusAll/${this.userInfo.email}`
+    getOrderList(period) {
+      switch (period) {
+        case 7:
+          this.title = "최근1주"
+          break;
+        case 30:
+          this.title = "최근1개월"
+          break;
+        case 180:
+          this.title = "최근6개월"
+          break;
+      }
+
+      axios.get(`${target}/onPeriod/${this.userInfo.email}/${period}`
        ).then(res => { 
           this.orderlist = res.data
+          this.total = 0
+          for(let idx=0; idx <res.data.length; idx++) {
+            this.total += this.orderlist[idx].payment.total
+          }            
       }).catch(err => {
         this.catchStatus(err)
       })

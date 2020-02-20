@@ -93,7 +93,13 @@
             <v-list-item-action>
               <v-icon>mdi-thumb-up</v-icon>
             </v-list-item-action>
-          </v-list-item>        
+          </v-list-item>    
+          <v-list-item v-if="isLogin" router :to="{name: 'orderhistory'}" exact>
+            <v-list-item-title>Order History</v-list-item-title>
+            <v-list-item-action>
+              <v-icon>mdi-timetable</v-icon>
+            </v-list-item-action>
+          </v-list-item>      
         </v-list-group>
         <v-list-group v-if="isLogin" v-show="isAdmin" no-action>
           <template v-slot:activator>
@@ -112,7 +118,7 @@
               <v-icon>mdi-account-supervisor-outline</v-icon>
             </v-list-item-action>            
           </v-list-item>    
-          <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'orderprepare'}" exact>
+          <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'orderprepareadmin'}" exact>
             <v-list-item-content>
               <v-list-item-title>상품준비</v-list-item-title>
             </v-list-item-content>
@@ -120,7 +126,7 @@
               <v-icon>mdi-playlist-play</v-icon>
             </v-list-item-action>
           </v-list-item>  
-          <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'delivery'}" exact>
+          <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'deliveryadmin'}" exact>
             <v-list-item-content>
               <v-list-item-title>배송처리</v-list-item-title>
             </v-list-item-content>
