@@ -26,7 +26,7 @@ export const catchStatus = {
             let newAccesstoken = res.data;
             // token정보를 로컬스토리지에 저장
             localStorage.setItem('access-token', newAccesstoken)
-            // refresh : 모든 정보 사라짐
+            // reload를 하게되면 브라우저(메모리)의 모든 정보가 사라짐
             window.location.reload()
         }).catch(err => {
           // refresh-token이 invalid(401)되어 세션 종료
