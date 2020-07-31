@@ -10,8 +10,7 @@ export const catchStatus = {
   methods: {
     catchStatus(err) {
       // access-token이 invalid(401) 되어 재발급 수행
-      // yongs-gateway --> yongs-jwt/jwt/recreate
-      if(err.response.status === 401) {
+      if(err.response.status === 401) { // 401 Unauthorized
         let accessToken  = localStorage.getItem('access-token')
         let parsedToken = commonFunc.parseJwtToken(accessToken)
         let userInfo = {
