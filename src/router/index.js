@@ -139,6 +139,18 @@ const routes = [
     name: "orderhistory",
     beforeEnter: onlyAuthUser,
     component: () => import(/* webpackChunkName: "orderhistory" */ "../views/Orderhistory.vue")
+  },
+  {
+    path: "/productcontrol",
+    name: "productcontrol",
+    beforeEnter: onlyAdminUser,
+    component: () => import(/* webpackChunkName: "productcontrol" */ "../views/ProductControl.vue")
+  },
+  {
+    path: "/productnewform",
+    name: "productnewform",
+    beforeEnter: onlyAdminUser,
+    component: () => import(/* webpackChunkName: "productnewform" */ "../views/ProductNewForm.vue")
   }
 ];
 

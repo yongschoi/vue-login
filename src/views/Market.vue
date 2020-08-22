@@ -9,7 +9,7 @@
 // @ is an alias to /src
 import ProductList from "@/components/ProductList.vue";
 export default {
-  name: "market",
+  name: "market", 
   components: {
     ProductList
   }

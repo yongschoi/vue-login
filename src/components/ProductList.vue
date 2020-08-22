@@ -1,5 +1,15 @@
 <template>
   <v-container>
+    <v-container>
+      <v-text-field
+        outlined
+        v-model="name"
+        label="상품명을 입력하세요"
+        append-outer-icon="mdi-magnify"
+        @click:append-outer="search(name)"
+        v-on:keyup.enter="search(name)">
+      ></v-text-field>
+    </v-container>
     <v-row 
       v-for="product in products"
       :key="product.code">
@@ -29,16 +39,20 @@ import { catchStatus } from "../mixins/catchStatus"
 import { commonFunc } from "../mixins/commonFunc"
 
 const product_target = 'http://127.0.0.1:8081/product'
+
+// orderform에서 acceess-token이 만료되는 것을 최소화 하기 위해
+// JWT을 새로생성(지금부터 1시간 유효)
 const jwt_target = 'http://127.0.0.1:7071/jwt'
 
 export default {
   data () {
     return {
-      products: []
+      products: [],
+      name: ''
     }
   },
   created() {
-    this.getProducts()
+    this.search('')
   },
   filters: {
     currency: function(value) {
@@ -46,13 +60,22 @@ export default {
     }
   },
   methods: {
-    getProducts() {
-      axios.get(`${product_target}/all`
-       ).then(res => { 
-          this.products = res.data 
-      }).catch(err => {
-        this.catchStatus(err)
-      })
+    search(name) {
+      if(name == "") {
+        axios.get(`${product_target}/all`
+        ).then(res => { 
+            this.products = res.data 
+        }).catch(err => {
+          this.catchStatus(err)
+        }) 
+      } else {   
+        axios.get(`${product_target}/name/${name}`
+        ).then(res => { 
+            this.products = res.data 
+        }).catch(err => {
+          this.catchStatus(err)
+        })     
+      }
     },
     displayImage(name) {
       let token = localStorage.getItem('access-token')

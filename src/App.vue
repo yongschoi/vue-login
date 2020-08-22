@@ -117,10 +117,20 @@
             <v-list-item-action>
               <v-icon>mdi-account-supervisor-outline</v-icon>
             </v-list-item-action>            
-          </v-list-item>    
+          </v-list-item>
+
+           <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'productcontrol'}" exact>
+            <v-list-item-content>
+              <v-list-item-title>상품관리</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>mdi-shape-square-rounded-plus</v-icon>
+            </v-list-item-action>            
+          </v-list-item>         
+          
           <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'orderprepareadmin'}" exact>
             <v-list-item-content>
-              <v-list-item-title>상품준비</v-list-item-title>
+              <v-list-item-title>주문처리</v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
               <v-icon>mdi-playlist-play</v-icon>
