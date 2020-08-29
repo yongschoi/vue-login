@@ -33,7 +33,6 @@
               width="400"
               lazy-src="require('../assets/loading.gif')"
               :src="displayImage(product.image)"
-              @click="selectProduct(product)"
             ></v-img>
         </v-card>
       </v-col>
@@ -41,11 +40,52 @@
         <v-card class="mx-auto" height="170" flat>
           <v-card-title>{{ product.name }}</v-card-title>
           <v-divider></v-divider>
-          <v-card-subtitle class="pb-0">가격 {{ product.price | currency}} 원</v-card-subtitle>
+          <v-card-subtitle class="pb-0">가격 {{ product.price | currency }} 원</v-card-subtitle>
         </v-card>
-        <div class="text-center"> 
-          <v-btn rounded color="primary" dark>상품수정</v-btn>
-        </div>
+        
+        <div align="center">
+          <v-dialog v-model="qtyDialog" persistent max-width="600px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                v-on="on"
+                @click="getStockQty(product.code)"
+              >입고처리
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">입고 처리</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col>
+                    현재수량 : {{ asisQty }}
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-currency-field
+                        dense
+                        outlined
+                        label="입고수량"
+                        v-model="tobeQty"
+                      ></v-currency-field>
+                    </v-col>                 
+                  </v-row>      
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="addQty(product.code)">Save</v-btn>
+                <v-btn color="blue darken-1" text @click="cancelQty">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>  
+          </div>
       </v-col>
     </v-row>
     <div class="text-center">
@@ -66,15 +106,19 @@ import axios from "axios"
 import { catchStatus } from "../mixins/catchStatus"
 import { commonFunc } from "../mixins/commonFunc"
 
-const product_target = 'http://127.0.0.1:8081/product'
+const product_R_target = 'http://127.0.0.1:8081/product'
+const stock_target = 'http://127.0.0.1:8082/stock'
 
 export default {
   data() {
     return {
       snackbar: false,
-      text: '상품명을 입력하세요.',
+      text: '제품명을 입력하세요.',
       products: [],
-      name: ''
+      name: '',
+      asisQty: 0,
+      tobeQty: 0,
+      qtyDialog: false
     }
   },
   filters: {
@@ -86,9 +130,9 @@ export default {
     search(name) {
       if(name == "") {
         this.snackbar = true  
-        this.text = '상품명을 입력하세요.'
+        this.text = '제품명을 입력하세요.'
       } else {   
-        axios.get(`${product_target}/name/${name}`
+        axios.get(`${product_R_target}/search/${name}`
         ).then(res => { 
           this.products = res.data
           if(this.products.length == 0 ) {
@@ -102,14 +146,46 @@ export default {
     },
     displayImage(name) {
       let token = localStorage.getItem('access-token')
-      return `${product_target}/displayImg?name=${name}&access-token=${token}`
+      return `${product_R_target}/displayImg?name=${name}&access-token=${token}`
     },
     add() {
       // ProductNewForm으로 이동
       this.$router.push({ name: 'productnewform'})
     },
-    update() {
-      
+    getStockQty(code) {
+      let token = localStorage.getItem('access-token')
+      axios.get(`${stock_target}/code/${code}`, { 
+        headers: {
+          'access-token': token
+        }
+      }).then(res => {
+        this.asisQty = res.data.qty
+      }).catch(err => {
+        this.catchStatus(err)
+      })
+    },
+    addQty(code) {
+      this.qtyDialog = false
+      let token = localStorage.getItem('access-token')
+      axios.post(stock_target + '/addQty', {
+        code: code,
+        qty: this.tobeQty,
+      }, 
+      { 
+        headers: {
+          'access-token': token
+        }
+      }).then((res) => {
+        this.asisQty = 0
+        this.tobeQty = 0
+      }).catch(err => {
+        this.catchStatus(err)
+      })
+    },
+    cancelQty() {
+      this.qtyDialog = false
+      this.asisQty = 0
+      this.tobeQty = 0
     }
   },
   mixins: [catchStatus]

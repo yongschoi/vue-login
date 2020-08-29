@@ -7,6 +7,19 @@ import axios from "axios";
 
 Vue.config.productionTip = false;
 
+// v-currency-field 플러그인 적용(npm i v-currency-field)
+import VCurrencyField from "v-currency-field";
+import { VTextField } from 'vuetify/lib';
+Vue.component('v-text-field', VTextField)
+Vue.use(VCurrencyField, {
+  decimalLength: 0,
+  autoDecimalMode: true,
+	min: null,
+	max: null,
+	defaultValue: 0
+})
+// v-currency-field 플러그인 적용 끝
+
 new Vue({
   router,
   store,

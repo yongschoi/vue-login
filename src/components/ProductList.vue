@@ -69,7 +69,7 @@ export default {
           this.catchStatus(err)
         }) 
       } else {   
-        axios.get(`${product_target}/name/${name}`
+        axios.get(`${product_target}/search/${name}`
         ).then(res => { 
             this.products = res.data 
         }).catch(err => {
