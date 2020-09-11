@@ -42,25 +42,54 @@
             <v-list-item-title>Todo List</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="isLogin" router :to="{name: 'inputform'}" exact>
-          <v-list-item-action>
-            <v-icon>mdi-lead-pencil</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Input Form</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item v-if="isLogin" router :to="{name: 'grid'}" exact>
-          <v-list-item-action>
-            <v-icon>mdi-grid</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Data Grid (Bulk)</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+
+        <v-list-group v-if="isLogin" no-action>
+          <template v-slot:activator>
+            <v-list-item-action>
+              <v-icon>mdi-grid</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Data Grid (Bulk)</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'employeeinit'}" exact>
+            <v-list-item-action>
+              <v-icon>mdi-filter-variant-plus</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>초기데이터생성</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item v-if="isLogin" router :to="{name: 'employee'}" exact>
+            <v-list-item-action>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Employee</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item v-if="isLogin" router :to="{name: 'status'}" exact>
+            <v-list-item-action>
+              <v-icon>mdi-cog</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Status</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item v-if="isLogin" router :to="{name: 'employeestatus'}" exact>
+            <v-list-item-action>
+              <v-icon>mdi-account-cog</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Employee + Status</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+
         <v-list-item v-if="isLogin" router :to="{name: 'mypage'}" exact>
           <v-list-item-action>
-            <v-icon>mdi-account</v-icon>
+            <v-icon>mdi-account-lock</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>My Page</v-list-item-title>
@@ -101,6 +130,7 @@
             </v-list-item-action>
           </v-list-item>      
         </v-list-group>
+
         <v-list-group v-if="isLogin" v-show="isAdmin" no-action>
           <template v-slot:activator>
             <v-list-item-action>
@@ -118,7 +148,6 @@
               <v-icon>mdi-account-supervisor-outline</v-icon>
             </v-list-item-action>            
           </v-list-item>
-
            <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'productcontrol'}" exact>
             <v-list-item-content>
               <v-list-item-title>상품관리</v-list-item-title>
@@ -126,8 +155,7 @@
             <v-list-item-action>
               <v-icon>mdi-shape-square-rounded-plus</v-icon>
             </v-list-item-action>            
-          </v-list-item>         
-          
+          </v-list-item>       
           <v-list-item v-if="isLogin" v-show="isAdmin" router :to="{name: 'orderprepareadmin'}" exact>
             <v-list-item-content>
               <v-list-item-title>주문처리</v-list-item-title>

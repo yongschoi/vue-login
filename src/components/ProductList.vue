@@ -4,11 +4,33 @@
       <v-text-field
         outlined
         v-model="name"
-        label="상품명을 입력하세요"
-        append-outer-icon="mdi-magnify"
-        @click:append-outer="search(name)"
+        label="제품명을 입력하세요"
+        append-icon="mdi-magnify"
+        @click:append="search(name)"
         v-on:keyup.enter="search(name)">
       ></v-text-field>
+      <div class="text-right">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              v-bind="attrs"
+              v-on="on"
+            >
+            <v-icon>mdi-menu</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(condition, index) in conditions"
+              :key="index"
+              @click="sort(condition.value)"
+            >
+              <v-list-item-title>{{ condition.name }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
     </v-container>
     <v-row 
       v-for="product in products"
@@ -16,8 +38,8 @@
       <v-col>
         <v-card>
             <v-img
-              height="250"
-              width="400"
+              height="180"
+              width="300"
               lazy-src="require('../assets/loading.gif')"
               :src="displayImage(product.image)"
               @click="selectProduct(product)"
@@ -48,7 +70,12 @@ export default {
   data () {
     return {
       products: [],
-      name: ''
+      name: '',
+      conditions: [
+        { name: '이름순', value: 'name' },
+        { name: '가격순', value: 'price' },
+        { name: '코드순', value: 'code' }
+      ],
     }
   },
   created() {
@@ -111,6 +138,19 @@ export default {
           router.push({name:'home'})
         } 
       })
+    },
+    sort(condition) {
+      switch (condition){
+      case "name" :
+          this.products.sort( (a, b) => a.name<b.name ? -1 : a.name>b.name ? 1 : 0)
+          break
+      case "price" :
+          this.products.sort( (a, b) => parseFloat(a.price)-parseFloat(b.price))
+          break
+      case "code" :
+          this.products.sort( (a, b) => a.code<b.code ? -1 : a.code>b.code ? 1 : 0)
+          break
+      }
     }
   },
   mixins: [catchStatus]

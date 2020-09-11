@@ -4,9 +4,9 @@
       <v-text-field
         outlined
         v-model="name"
-        label="상품명을 입력하세요"
-        append-outer-icon="mdi-magnify"
-        @click:append-outer="search(name)"
+        label="제품명을 입력하세요"
+        append-icon="mdi-magnify"
+        @click:append="search(name)"
         v-on:keyup.enter="search(name)">
       ></v-text-field>
       <v-snackbar v-model="snackbar">

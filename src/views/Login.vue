@@ -6,7 +6,7 @@
           class="mb-2"
           type="error"
           :value="isLoginError" 
-        >이메일과 비밀번호를 확인하세요.
+        >아이디와 비밀번호를 확인하세요.
         </v-alert>
         <v-alert 
           type="success"
@@ -20,7 +20,7 @@
           <div class="pa-3">
             <v-text-field 
               v-model="email"
-              label="이메일을 입력하세요."
+              label="아이디(e-mail)를 입력하세요."
             ></v-text-field>
             <v-text-field 
               v-model="password"

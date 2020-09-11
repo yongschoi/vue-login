@@ -76,18 +76,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "todo" */ "../views/Todo.vue")
   },
   {
-    path: "/grid",
-    name: "grid",
-    beforeEnter: onlyAuthUser,
-    component: () => import(/* webpackChunkName: "grid" */ "../views/Grid.vue")
-  },
-  {
-    path: "/inputform",
-    name: "inputform",
-    beforeEnter: onlyAuthUser,
-    component: () => import(/* webpackChunkName: "inputform" */ "../views/InputForm.vue")
-  },
-  {
     path: "/registrationform",
     name: "registrationform",
     component: () => import(/* webpackChunkName: "registrationform" */ "../views/RegistrationForm.vue")
@@ -151,6 +139,30 @@ const routes = [
     name: "productnewform",
     beforeEnter: onlyAdminUser,
     component: () => import(/* webpackChunkName: "productnewform" */ "../views/ProductNewForm.vue")
+  },
+  {
+    path: "/employeeinit",
+    name: "employeeinit",
+    beforeEnter: onlyAdminUser,
+    component: () => import(/* webpackChunkName: "employeeinit" */ "../views/EmployeeInit.vue")
+  },
+  {
+    path: "/employee",
+    name: "employee",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "employee" */ "../views/Employee.vue")
+  },
+  {
+    path: "/status",
+    name: "status",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "status" */ "../views/Status.vue")
+  },
+  {
+    path: "/employeestatus",
+    name: "employeestatus",
+    beforeEnter: onlyAuthUser,
+    component: () => import(/* webpackChunkName: "employeestatus" */ "../views/EmployeeStatus.vue")
   }
 ];
 

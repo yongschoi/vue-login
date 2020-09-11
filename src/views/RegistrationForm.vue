@@ -15,8 +15,8 @@
               <v-text-field
                 dense
                 outlined
-                label="아이디(E-mail)"
-                placeholder="등록아이디(E-mail)을 입력하세요"
+                label="아이디(e-mail)"
+                placeholder="등록아이디(e-mail)을 입력하세요"
                 clearable             
                 v-model="email"
                 :rules="emailRules"

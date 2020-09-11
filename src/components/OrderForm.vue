@@ -196,7 +196,6 @@ export default {
         this.orderComplete = true
       }).catch(err => {
         this.catchStatus(err)
-        // this.invalidOrderStatus()
       })
     }
   },

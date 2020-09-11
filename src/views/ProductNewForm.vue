@@ -3,7 +3,7 @@
     <v-alert 
       type="success"
       :value="complete" 
-    >제품등록이 완료되었습니다.
+    >{{ completeText }}
     </v-alert>
     <v-form v-if="!complete" ref="form">
       <v-overlay :value="overlay">
@@ -88,7 +88,8 @@ export default {
       validoverlay:false,
       overlayText: '',
       validoverlayText: '',
-      complete: false
+      complete: false,
+      completeText: ''
     }
   },
   methods: {
@@ -163,16 +164,20 @@ export default {
       // file과 JSON.stringify(json)로 보내야 한다.
       formData.append('productStr', JSON.stringify(json))
 
-      axios.post(target + '/create', formData,
-      { 
+      axios.post(target + '/create', formData, { 
         headers: {
           'Content-Type': 'multipart/form-data',
           'access-token': token
         }
       }).then((res) => {
+        this.completeText = '제품등록이 완료되었습니다.'
         this.complete = true
       }).catch(err => {
-        this.catchStatus(err)
+        if(err.response.status === 406) {
+          this.completeText = '제품등록에 오류가 있습니다.(코드/이름중복)'
+          this.complete = true
+        } else
+          this.catchStatus(err)
       })
     },
     reset() {
