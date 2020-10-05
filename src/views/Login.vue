@@ -79,7 +79,7 @@ export default {
     postTest() {
       axios.post(target + '/create', {
         email: 'yongs@naver.com',
-        password: '12',
+        password: '12345',
         name: 'Yongs'
       })
       .then(res => {

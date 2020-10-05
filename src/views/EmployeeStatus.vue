@@ -32,7 +32,8 @@ export default {
         { text: 'Salary', value: 'salary' },
         { text: 'Project', value: 'project' },
         { text: 'Skill', value: 'skill' },
-        { text: 'Level', value: 'level' }  
+        { text: 'Level', value: 'level' },
+        { text: 'Grade', value: 'grade' }   
       ],
       employees: []
     }

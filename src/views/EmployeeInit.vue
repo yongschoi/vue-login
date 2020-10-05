@@ -3,7 +3,7 @@
     <h1>Data Initailize</h1>
     <v-container>
       <v-row>
-        <v-col>
+        <v-col>          
           <v-currency-field
             dense
             outlined
