@@ -64,7 +64,7 @@ const product_target = 'http://127.0.0.1:8081/product'
 
 // orderform에서 acceess-token이 만료되는 것을 최소화 하기 위해
 // JWT을 새로생성(지금부터 1시간 유효)
-const jwt_target = 'http://127.0.0.1:7071/jwt'
+const jwt_target = 'http://127.0.0.1:8083/jwt'
 
 export default {
   data () {

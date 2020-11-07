@@ -4,7 +4,7 @@ import axios from "axios"
 import { commonFunc } from "./commonFunc"
 
 // target 인증서버 정보
-const target = 'http://127.0.0.1:7071/jwt'
+const target = 'http://127.0.0.1:8083/jwt'
 
 export const catchStatus = {
   methods: {
