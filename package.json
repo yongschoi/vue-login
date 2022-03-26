@@ -16,7 +16,7 @@
     "http-proxy": "^1.18.1",
     "kind-of": "^6.0.3",
     "lodash": "^4.17.19",
-    "minimist": "^1.2.3",
+    "minimist": "^1.2.6",
     "node-forge": "^0.10.0",
     "serialize-javascript": "^4.0.0",
     "v-currency-field": "^3.0.11",
